@@ -21,6 +21,8 @@ class Solution:
             es += chr+"#"
         p = []
         c=0
+        maxPos = 0
+        maxVal = 0
         while (c < len(es)):
             l=c
             r=c
@@ -30,10 +32,18 @@ class Solution:
                 while (l>-1 and r<len(es) and es[l]==es[r]):
                     l-=1
                     r+=1
-                p.append(int((r-l)/2)-1)
+                if((int((r-l)/2)-1)>maxVal):
+                    maxVal = int((r-l)/2)-1
+                    p.append(maxVal)
+                    maxPos = c
             c+=1
-        print(p)
+
+        start = maxPos - maxVal
+        end = maxPos + maxVal
+        res = es[start:end+1]
+        
+        return(res.replace('#',''))
 
 
 sol = Solution()
-sol.longestPalindrome("acncacn")
+print(sol.longestPalindrome("acncacn"))
