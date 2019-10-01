@@ -29,7 +29,9 @@ class Solution:
             res = res*10+ip%10
             ip= ip//10
         
-        res= res*-1 if isXNeg else res 
-        return res if(res <= pow(2,31)-1 and res > -pow(2,31)) else 0            
+        if(res>=2**31):
+            return 0
+        return -res if isXNeg else res 
+        
 sol = Solution()
 print (sol.reverse(1534236469))
