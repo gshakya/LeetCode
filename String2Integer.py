@@ -48,22 +48,25 @@ class Solution:
         str = str.strip()
         neg=False
         
-        if(not str[0].isdigit  and not str[0] == '-' and not str[0] == '+'):
-            return 0
-        if(str[0] == '-'or str[0] == '+' ):
-            neg = True if str[0] =='-' else False
-            str = str[1::] 
+        if(str[0].isdigit()  or str[0] == '-' or str[0] == '+' ):
+                
+            if(str[0] == '-'or str[0] == '+' ):
+                if (not str[1].isdigit()):
+                    return 0
+                neg = True if str[0] =='-' else False
+                str = str[1::] 
             
-        i=j= len(str)//2
-        while (i>0  or j < len(str)or str[j].isdigit()):
-            if(not str[i].isdigit()): 
-                i=j= i//2
-            else:
-                i= i-1 if i>0 else 0
-                j= j+1 if str[j].isdigit() else j
-            if(i<=0 and j>=len(str)):
-                break
-        return -int(str[0:j]) if neg else int(str[0:j])
-
+            i=j= len(str)//2
+            while (i>0  and (j <= len(str)or str[j].isdigit())):
+                if(not str[i].isdigit()): 
+                    i=j= i//2
+                else:
+                    i= i-1 if i>0 else 0
+                    j= j+1 if str[j].isdigit() or j < len(str) else j
+               
+            res = int(str[0:j])
+            res = 2**31 if res >= 2**31 else res
+            return -res if neg else res
+        return 0
 sol = Solution()
-print(sol.myAtoi("42"))
+print(sol.myAtoi("  -98 words"))
