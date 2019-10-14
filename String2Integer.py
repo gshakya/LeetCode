@@ -73,8 +73,7 @@ def minCharIdx(str: str, start: int, end: int):
     if( idx== 0):
         return len(str)
     if(idx == end-1):
-        return end
-    
+        return end    
     leftMinIdx = min(minCharIdx(str,start,idx),idx if not str[idx].isdigit() else len(str))
     if(str[idx].isdigit()):
         return (min(leftMinIdx,minCharIdx(str,idx,end)))
