@@ -2,11 +2,14 @@
 https://leetcode.com/problems/string-to-integer-atoi/
 Implement atoi which converts a string to an integer.
 
-The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.
+The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from
+this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a 
+numerical value.
+The string can contain additional characters after those that form the integral number, which are ignored and have no effect on
+ the behavior of this function.
 
-The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.
-
-If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.
+If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists 
+because either str is empty or it contains only whitespace characters, no conversion is performed.
 
 If no valid conversion could be performed, a zero value is returned.
 
@@ -41,7 +44,9 @@ Input: "-91283472332"
 Output: -2147483648
 Explanation: The number "-91283472332" is out of the range of a 32-bit signed integer.
              Thefore INT_MIN (−2^31) is returned.
-'''             
+''' 
+
+
 
 class Solution:
     def myAtoi(self, str: str) -> int:
@@ -49,24 +54,37 @@ class Solution:
         neg=False
         
         if(str[0].isdigit()  or str[0] == '-' or str[0] == '+' ):
-                
+                            
             if(str[0] == '-'or str[0] == '+' ):
                 if (not str[1].isdigit()):
                     return 0
                 neg = True if str[0] =='-' else False
                 str = str[1::] 
             
-            i=j= len(str)//2
-            while (i>0  and (j <= len(str)or str[j].isdigit())):
-                if(not str[i].isdigit()): 
-                    i=j= i//2
-                else:
-                    i= i-1 if i>0 else 0
-                    j= j+1 if str[j].isdigit() or j < len(str) else j
+            mci=minCharIdx(str,0,len(str))
                
-            res = int(str[0:j])
+            res = int(str[0:mci])
             res = 2**31 if res >= 2**31 else res
             return -res if neg else res
         return 0
+        
+def minCharIdx(str: str, start: int, end: int):
+    idx =(start+end)//2
+    if( idx== 0):
+        return len(str)
+    if(idx == end-1):
+        return end
+    
+    leftMinIdx = min(minCharIdx(str,start,idx),idx if not str[idx].isdigit() else len(str))
+    if(str[idx].isdigit()):
+        return (min(leftMinIdx,minCharIdx(str,idx,end)))
+    return leftMinIdx
+
 sol = Solution()
-print(sol.myAtoi("  -98 words"))
+# print(sol.myAtoi("42"))
+# print(sol.myAtoi("-42"))
+# print(sol.myAtoi("     -42"))
+print(sol.myAtoi("4193 with words"))
+# print(sol.myAtoi("words and 987"))
+# print(sol.myAtoi("-91283472332"))
+# print(sol.myAtoi("3.14159"))
