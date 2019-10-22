@@ -52,14 +52,19 @@ class Solution:
     def myAtoi(self, str: str) -> int:
         str = str.strip()
         neg=False
-        
+        if(len(str)==0):
+            return 0
+
         if(str[0].isdigit()  or str[0] == '-' or str[0] == '+' ):
                             
             if(str[0] == '-'or str[0] == '+' ):
-                if (not str[1].isdigit()):
-                    return 0
-                neg = True if str[0] =='-' else False
-                str = str[1::] 
+                try:
+                    if (not str[1].isdigit()):
+                        return 0
+                    neg = True if str[0] =='-' else False
+                    str = str[1::] 
+                except IndexError as identifier:
+                    return 0              
             
             mci=minCharIdx(str,0,len(str))
                
@@ -72,8 +77,8 @@ def minCharIdx(str: str, start: int, end: int):
     idx =(start+end)//2
     if( idx== 0):
         return len(str)
-    if(idx == end-1):
-        return end    
+    if(idx == end and start != 0):
+        return len(str)    
     leftMinIdx = min(minCharIdx(str,start,idx),idx if not str[idx].isdigit() else len(str))
     if(str[idx].isdigit()):
         return (min(leftMinIdx,minCharIdx(str,idx,end)))
@@ -83,7 +88,11 @@ sol = Solution()
 # print(sol.myAtoi("42"))
 # print(sol.myAtoi("-42"))
 # print(sol.myAtoi("     -42"))
-print(sol.myAtoi("4193 with words"))
+# print(sol.myAtoi("4193 with words"))
+# print(sol.myAtoi("3212 "))
 # print(sol.myAtoi("words and 987"))
 # print(sol.myAtoi("-91283472332"))
 # print(sol.myAtoi("3.14159"))
+# print(sol.myAtoi(""))
+# print(sol.myAtoi("+"))
+print(minCharIdx("0012a42",3,7))
